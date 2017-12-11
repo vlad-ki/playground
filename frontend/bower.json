@@ -1,0 +1,10 @@
+{
+  "name": "investx",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "vlad-ki <inweb24.vk@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": ""
+}

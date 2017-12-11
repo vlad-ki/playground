@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='InvestX'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>InvestX</title>
+    <link rel="stylesheet" href="style.css" media="screen">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+ <header ng-controller="HeaderCtrl as header">
+    <h1>{{header.name}}</h1>
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Главная</a>
+            </li>
+            <li>
+                <a href="#/home">Первая страница</a>
+            </li>
+            <li>
+                <a href="#/two">Вторая страница</a>
+            </li>
+        </ul>
+    </nav>
+    {{header.newPath}}<br>
+    <div ng-include="'home.html'"></div>
+    <!-- <pre ng-bind="header.print | json"></pre> -->
+ </header>
+</body>
+</html>
