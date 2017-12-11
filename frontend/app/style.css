@@ -1,3 +1,38 @@
 h1 {
     color: rgb(255, 0, 0);
 }
+
+nav ul {
+    background-color: #6797ff60;
+    list-style: none;
+    padding: 0;
+    width: 200px;
+    border: 1px solid #2339ff;
+}
+
+nav ul li {
+    border-bottom: 1px solid #2339ff;
+    padding: 5px;
+}
+
+nav ul li:last-child {
+    border-bottom: none;
+}
+
+nav ul li a {
+    color: #1000a0;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.menu-item__selected {
+    background-color: #2339ff;
+    color: #ffffff;
+}
+
+.menu-item__selected:hover {
+    text-decoration: none;
+}

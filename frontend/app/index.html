@@ -14,14 +14,14 @@
     <h1>{{header.name}}</h1>
     <nav>
         <ul>
-            <li>
-                <a href="/">Главная</a>
+            <li class="menu-item__selected">
+                <a href="/" class="menu-item__selected">Home</a>
             </li>
             <li>
-                <a href="#/home">Первая страница</a>
+                <a href="#/home" ng-class="{'menu-item__selected': header.isSelected('home')}">First Page</a>
             </li>
             <li>
-                <a href="#/two">Вторая страница</a>
+                <a href="#/two" ng-class="{'menu-item__selected': header.isSelected('two')}">Second Page</a>
             </li>
         </ul>
     </nav>
