@@ -11,5 +11,8 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-server-livereload": "^1.9.2"
+  },
+  "dependencies": {
+    "angular-route": "^1.6.8"
   }
 }

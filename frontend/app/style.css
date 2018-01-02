@@ -33,6 +33,6 @@ nav ul li a:hover {
     color: #ffffff;
 }
 
-.menu-item__selected:hover {
+.nav-item__selected:hover {
     text-decoration: none;
 }
