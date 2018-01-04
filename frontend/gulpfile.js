@@ -49,5 +49,5 @@ if (isDevelopment){
               gulp.parallel('webpack', 'watch', 'webserver'))
     );
 } else {
-    gulp.task('default', gulp.series('clean', 'deploy'));
+    gulp.task('default', gulp.series('clean', 'webpack', 'deploy'));
 }
