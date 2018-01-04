@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" ng-app='InvestX'>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>InvestX</title>
-  <link rel="stylesheet" href="./style.css" media="screen">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>InvestX</title>
+    <link rel="stylesheet" href="./style.css" media="screen">
 
-</head>
-<body>
-  <header ng-controller="HeaderCtrl as header">
-    <h1>{{header.name}}</h1>
+  </head>
+  <body>
+    <header ng-controller="HeaderCtrl as header">
+      <h1>{{header.name}}</h1>
 
-    <nav>
-      <ul class="site-nav">
-        <li class="nav-item__selected">
-          <a href="#/" class="site-nav-item menu-item__selected">Home</a>
-        </li>
-        <li>
-          <a href="#!/two" class="site-nav-item">First Page</a>
-        </li>
-        <li>
-          <a href="#!/three" class="site-nav-item">Second Page</a>
-        </li>
-      </ul>
-    </nav>
-    <!-- <pre ng-bind="header.print | json"></pre> -->
-  </header>
-  <div ng-view></div>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-<script src="./node_modules/angular-route/angular-route.min.js"></script>
-<script src="./index.js"></script>
-<script src="./routes/routes.js"></script>
-<script src="./components/header/header-ctrl.js"></script>
-
-</body>
+      <nav>
+        <ul class="site-nav">
+          <li class="nav-item__selected">
+            <a href="#/" class="site-nav-item menu-item__selected">Home</a>
+          </li>
+          <li>
+            <a href="#!/two" class="site-nav-item">First Page</a>
+          </li>
+          <li>
+            <a href="#!/three" class="site-nav-item">Second Page</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- <pre ng-bind="header.print | json"></pre> -->
+    </header>
+    <div ng-view></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="./build.js"></script>
+  </body>
 </html>

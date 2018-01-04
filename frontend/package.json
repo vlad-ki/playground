@@ -9,10 +9,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-server-livereload": "^1.9.2"
   },
   "dependencies": {
-    "angular-route": "^1.6.8"
+    "angular-route": "^1.6.8",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "cross-spawn": "^5.1.0",
+    "del": "^3.0.0"
   }
 }
