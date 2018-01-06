@@ -23,7 +23,12 @@ gulp.task('webserver', function () {
     gulp.src('build')
         .pipe(server({
             livereload: true,
-            open: true
+            open: true,
+            proxies: [
+                { source: '/api/v1/klines',
+                  target: 'https://api.binance.com/api/v1/klines'
+                }
+            ]
         }));
 })
 
