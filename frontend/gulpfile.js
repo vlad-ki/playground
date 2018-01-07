@@ -11,7 +11,10 @@ const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'develop
 */
 gulp.task('deploy', function() {
     // sinsce позволяет копировать только измененные файлы
-    return gulp.src(['app/**/*.*', '!app/**/*.js'], { since: gulp.lastRun('deploy') })
+    return gulp.src(['app/**/*.*',
+                     '!app/**/*.js',
+                     'node_modules/fusioncharts/fusioncharts.powercharts.js'],
+                      { since: gulp.lastRun('deploy') })
     .pipe(gulp.dest('build'));
 })
 

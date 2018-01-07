@@ -104,7 +104,7 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
     setClosePrices = setClosePrices.bind(this);
 
     binanseOllPricesRes.query({}, (data) => {
-        this.prices = data
+        this.prices = data.slice(0, 10)
     });
 
     function getAssetsData(asset, interval) {
