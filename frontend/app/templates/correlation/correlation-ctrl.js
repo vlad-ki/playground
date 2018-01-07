@@ -155,7 +155,14 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
                secondArr.length;
     }
 
+    function resetCorrData(prices) {
+        prices.forEach(element => {
+            element.corr = {};
+        })
+    }
+
     function setSymbol(symbol) {
+        resetCorrData(this.prices);
         this.choosenAsset = symbol;
         getAssetsData(this.choosenAsset)
         console.log('1 ', this.choosenAsset)
