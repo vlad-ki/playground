@@ -8,8 +8,10 @@ angular.module('InvestX').config(function($routeProvider) {
     .when('/', {
       templateUrl: './home.html'
     })
-    .when('/two', {
-      templateUrl: 'two.html'
+    .when('/correlation', {
+      templateUrl: 'templates/correlation/correlation.html',
+      controller: 'correlationCtrl',
+      controllerAs: 'corrCtrl'
     })
     .when('/three', {
       templateUrl: 'three.html'

@@ -1,6 +1,11 @@
 /* global angular */
 'use strict';
-angular.module('InvestX', [require('angular-route')]);
+require('./angular-fusioncharts.js')
+
+angular.module('InvestX', [require('angular-route'),
+                           require('angular-resource'),
+                           'ng-fusioncharts']);
+
 require('./dependensis');
 
 /*

@@ -1,0 +1,15 @@
+<!-- <pre>{{$ctrl.prices | json}}</pre> -->
+<table>
+    <thead>
+        <th>Пара</th>
+        <th>Цена</th>
+        <th>Корреляция с </th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="asset in $ctrl.prices" ng-click="$ctrl.setAsset(asset)">
+            <td>{{asset.symbol}}</td>
+            <td>{{asset.price}}</td>
+            <td>{{asset.corr.value[0][1].toFixed(2)}}</td>
+        </tr>
+    </tbody>
+</table>

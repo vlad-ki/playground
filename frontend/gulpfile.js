@@ -27,6 +27,10 @@ gulp.task('webserver', function () {
             proxies: [
                 { source: '/api/v1/klines',
                   target: 'https://api.binance.com/api/v1/klines'
+                },
+                {
+                    source: '/api/v1/ticker',
+                    target: 'https://api.binance.com/api/v1/ticker/'
                 }
             ]
         }));
