@@ -19,6 +19,7 @@ function assetsTableCtrl() {
     }
 
     function setAsset(asset) {
+        this.symbol = asset.symbol;
         this.setSymbol({symbol: asset});
     }
 

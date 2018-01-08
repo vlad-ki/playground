@@ -3,7 +3,7 @@
     <thead>
         <th>Пара</th>
         <th>Цена</th>
-        <th>Корреляция с </th>
+        <th>Корреляция с {{$ctrl.symbol}}</th>
     </thead>
     <tbody>
         <tr ng-repeat="asset in $ctrl.prices" ng-click="$ctrl.setAsset(asset)">
