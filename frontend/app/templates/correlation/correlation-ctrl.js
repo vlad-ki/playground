@@ -104,12 +104,12 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
     setClosePrices = setClosePrices.bind(this);
 
     binanseOllPricesRes.query({}, (data) => {
-        this.prices = data.slice(0, 10)
+        this.prices = data;
     });
 
     function getAssetsData(asset, interval) {
-        interval = interval || '1M';
-        binanceKlinesRes.query({ symbol: asset.symbol, interval: interval },
+        interval = interval || '1d';
+        return binanceKlinesRes.query({ symbol: asset.symbol, interval: interval },
             (data) => {
                 asset.klines = data;
                 asset.corr = {};
@@ -119,7 +119,7 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
             },
             function (err) {
                 console.log('err', err)
-            })
+            }).$promise;
     }
 
     /*
@@ -155,22 +155,20 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
                secondArr.length;
     }
 
-    function resetCorrData(prices) {
-        prices.forEach(element => {
-            element.corr = {};
-        })
-    }
-
     function setSymbol(symbol) {
-        resetCorrData(this.prices);
         this.choosenAsset = symbol;
         getAssetsData(this.choosenAsset)
+            .then((data) => {
+                this.prices.forEach(asset => {
+                    if (!asset.corr) {
+                        getAssetsData(asset);
+                    } else {
+                        asset.corr.value = getCorr(asset);
+                    }
+                });
+            })
         console.log('1 ', this.choosenAsset)
-        this.prices.forEach(element => {
-            getAssetsData(element);
-        });
+
         console.log(this.prices)
     }
-
-
 }
