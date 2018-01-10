@@ -2,6 +2,7 @@
 'use strict';
 
 import pcorr from 'compute-pcorr';
+import _ from 'lodash';
 
 angular.module('InvestX')
     .controller('correlationCtrl', correlationCtrl);
@@ -127,13 +128,18 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
     * Сопоставляя время закрытия цен
     */
     function setClosePrices(asset) {
-        const closePrices = [];
-        asset.klines.forEach(kline => {
-            this.choosenAsset.klines.forEach(choosenAssetKline => {
-                if (kline[6] === choosenAssetKline[6]) // close time;
-                closePrices.push(Number(kline[4])) // close price;
-            })
+        asset.timeToPriceObj = {};
+        this.choosenAsset.timeToPriceObj = {};
+
+        this.choosenAsset.klines.forEach(kline => {
+            this.choosenAsset.timeToPriceObj[kline[6]] = Number(kline[4]) // close time to close price;
         })
+        asset.klines.forEach(kline => {
+            asset.timeToPriceObj[kline[6]] = Number(kline[4]);
+        })
+
+        const bothTime = _.pick(asset.timeToPriceObj, Object.keys(this.choosenAsset.timeToPriceObj))
+        const closePrices = Object.values(bothTime);
         return closePrices;
     }
 
