@@ -12,7 +12,6 @@ angular.module('InvestX')
     })
 
 function assetsTableCtrl() {
-    let symbol;
     this.setAsset = setAsset;
     this.$onInit = () => {
         //
@@ -21,9 +20,5 @@ function assetsTableCtrl() {
     function setAsset(asset) {
         this.symbol = asset.symbol;
         this.setSymbol({symbol: asset});
-    }
-
-    function calculate() {
-
     }
 }

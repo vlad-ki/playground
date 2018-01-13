@@ -51,6 +51,7 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
             "label": "2010"
         }]
     }];
+    // this.categories = [{'category': }]
 
     this.dataset = [{
             "seriesname": "Heating Oil",
@@ -103,24 +104,15 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
     getAssetsData = getAssetsData.bind(this);
     getCorr = getCorr.bind(this);
     setClosePrices = setClosePrices.bind(this);
+    setCorrObj = setCorrObj.bind(this);
 
     binanseOllPricesRes.query({}, (data) => {
         this.prices = data;
     });
 
-    function getAssetsData(asset, interval) {
-        interval = interval || '1d';
-        return binanceKlinesRes.query({ symbol: asset.symbol, interval: interval },
-            (data) => {
-                asset.klines = data;
-                asset.corr = {};
-                asset.corr.with = this.choosenAsset.symbol;
-                asset.corr.closePrices = setClosePrices(asset);
-                asset.corr.value = getCorr(asset);
-            },
-            function (err) {
-                console.log('err', err)
-            }).$promise;
+    function getAssetsData(asset, interval='1d') {
+        return binanceKlinesRes.query({symbol: asset.symbol,
+                                       interval: interval}).$promise;
     }
 
     /*
@@ -161,20 +153,32 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
                secondArr.length;
     }
 
+    function setCorrObj(asset) {
+        asset.corr = {};
+        asset.corr.with = this.choosenAsset.symbol;
+        asset.corr.closePrices = setClosePrices(asset);
+        asset.corr.value = getCorr(asset);
+    }
+
     function setSymbol(symbol) {
         this.choosenAsset = symbol;
         getAssetsData(this.choosenAsset)
-            .then((data) => {
+            .then(data => {
+                this.choosenAsset.klines = data;
+                setCorrObj(this.choosenAsset);
                 this.prices.forEach(asset => {
                     if (!asset.corr) {
-                        getAssetsData(asset);
+                        getAssetsData(asset)
+                            .then(data => {
+                                asset.klines = data;
+                                setCorrObj(asset)
+                            });
                     } else {
-                        asset.corr.value = getCorr(asset);
-                    }
+                    setCorrObj(asset)
+                    };
                 });
             })
         console.log('1 ', this.choosenAsset)
-
         console.log(this.prices)
     }
 }
