@@ -8,110 +8,58 @@ angular.module('InvestX')
     .controller('correlationCtrl', correlationCtrl);
 
 function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
-    // моки для теста графика
-    this.attrs = {
-
-        "caption": "Sales Comparison: 2013 versus 2014",
-        "subCaption": 'Harry’s SuperMart',
-        "numberprefix": "$",
-        "plotgradientcolor": "",
-        "bgcolor": "FFFFFF",
-        "showalternatehgridcolor": "0",
-        "divlinecolor": "CCCCCC",
-        "showcanvasborder": "0",
-        "canvasborderalpha": "0",
-        "canvasbordercolor": "CCCCCC",
-        "canvasborderthickness": "1",
-        "yaxismaxvalue": "100",
-        "captionpadding": "30",
-        "linethickness": "3",
-        "yaxisvaluespadding": "15",
-        "legendshadow": "0",
-        "legendborderalpha": "0",
-        "palettecolors": "#f8bd19,#008ee4,#33bdda,#e44a00,#6baa01,#583e78",
-        "showborder": "0",
-        "base": "10",
-        "numberprefix": "$",
-        "drawCrossLine": "1",
-        "crossLineAlpha": "100",
-        "canvasPadding": "10",
-        "divLineAlpha": "80"
-    };
-
-    this.categories = [{
-        "category": [{
-            "label": "1990"
-        }, {
-            "label": "1995"
-        }, {
-            "label": "2000"
-        }, {
-            "label": "2005"
-        }, {
-            "label": "2010"
-        }]
-    }];
-    // this.categories = [{'category': }]
-
-    this.dataset = [{
-            "seriesname": "Heating Oil",
-            "anchorBgColor": "#876EA1",
-            "data": [{
-                "value": "25.2"
-            }, {
-                "value": "33.5"
-            }, {
-                "value": "42.3"
-            }, {
-                "value": "54.6"
-            }, {
-                "value": "62.8"
-            }]
-        }, {
-            "seriesname": "Electricity",
-            "anchorBgColor": "#72D7B2",
-            "data": [{
-                "value": "11.3"
-            }, {
-                "value": "14.4"
-            }, {
-                "value": "16.9"
-            }, {
-                "value": "18.4"
-            }, {
-                "value": "20.5"
-            }]
-        }, {
-            "seriesname": "Natural Gas",
-            "anchorBgColor": "#77BCE9",
-            "data": [{
-                "value": "3"
-            }, {
-                "value": "4.2"
-            }, {
-                "value": "5.8"
-            }, {
-                "value": "6.9"
-            }, {
-                "value": "8"
-            }]
-        }];
-
-    this.chartOptions = {
-        //
-    }
     this.setSymbol = setSymbol;
     getAssetsData = getAssetsData.bind(this);
-    getCorr = getCorr.bind(this);
+    calculateCorr = calculateCorr.bind(this);
     setClosePrices = setClosePrices.bind(this);
     setCorrObj = setCorrObj.bind(this);
+    getChartData = getChartData.bind(this);
+    getGoogleChartData = getGoogleChartData.bind(this);
 
     binanseOllPricesRes.query({}, (data) => {
-        this.prices = data;
+        this.prices = data.slice(0, 10);
+        google.charts.load('current', { 'packages': ['line'] });
+        google.charts.setOnLoadCallback(getChartData);
     });
 
+    function getChartData() {
+        this.choosenAsset = this.prices[0];
+        getAssetsData(this.choosenAsset)
+            .then(getGoogleChartData)
+    }
+
+    function getGoogleChartData(klines) {
+        let data = new google.visualization.DataTable();
+        data.addColumn('date', 'Day');
+        data.addColumn('number', 'Prise ETH/BTC');
+        this.choosenAsset.klines = klines;
+        let rows = [];
+        this.choosenAsset.klines.forEach(kline => {
+            let date = new Date(kline[6]);
+            rows.push([date, Number(kline[4])]);
+        });
+        console.log(rows)
+        data.addRows(rows)
+        let options = {
+            chart: {
+                title: 'Table of prise',
+                subtitle: '1 day interval'
+            },
+            vAxis: { format: 'decimal' },
+            width: 900,
+            height: 500,
+        };
+
+        let chart = new google.charts.Line(document.getElementById('chart'));
+        chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+
     function getAssetsData(asset, interval='1d') {
-        return binanceKlinesRes.query({symbol: asset.symbol,
+        let symbol = asset.symbol
+        if (typeof asset === 'string') {
+            symbol = asset;
+        }
+        return binanceKlinesRes.query({symbol: symbol,
                                        interval: interval}).$promise;
     }
 
@@ -135,7 +83,7 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
         return closePrices;
     }
 
-    function getCorr(asset) {
+    function calculateCorr(asset) {
         if(asset.symbol === this.choosenAsset.symbol) {
             this.choosenAsset.corr.closePrices = asset.corr.closePrices;
         }
@@ -157,7 +105,7 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
         asset.corr = {};
         asset.corr.with = this.choosenAsset.symbol;
         asset.corr.closePrices = setClosePrices(asset);
-        asset.corr.value = getCorr(asset);
+        asset.corr.value = calculateCorr(asset);
     }
 
     function setSymbol(symbol) {
