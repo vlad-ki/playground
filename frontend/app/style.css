@@ -1,5 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Aldrich');
+@import './templates/correlation/correlation.css';
+@import './components/assets-table/assets-table.css';
+
 h1 {
-    color: rgb(255, 0, 0);
+    color:  #346df1;
+    font-family: Aldrich;
+    font-weight: 400;
+    margin-left: 10px;
+}
+h1 span {
+    color: rgb(117, 117, 117);
 }
 
 nav ul {

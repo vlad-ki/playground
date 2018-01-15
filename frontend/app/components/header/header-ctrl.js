@@ -3,7 +3,6 @@
 angular.module('InvestX').controller('HeaderCtrl', HeaderCtrl);
 
 function HeaderCtrl($scope, $location) {
-  this.name = 'PlayGround';
   const routes = {
     '/': 'home.html',
     '/two': 'two.html',

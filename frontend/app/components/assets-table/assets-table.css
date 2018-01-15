@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400&subset=cyrillic');
+
+table {
+    border: 1px solid #346df1;
+    border-radius: 5%;
+    color: rgb(117, 117, 117);
+    font-family: Roboto;
+    font-weight: 300;
+}
+th, td {
+    width: 20px;
+}
+tr:hover {
+    background-color: #346df131
+}
+th {
+    font-weight: 400;
+}
+td {
+    text-align: center;
+}
