@@ -17,7 +17,7 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
     getGoogleChartData = getGoogleChartData.bind(this);
 
     binanseOllPricesRes.query({}, (data) => {
-        this.prices = data.slice(0, 20);
+        this.prices = data;
         google.charts.load('current', { 'packages': ['line'] });
         google.charts.setOnLoadCallback(getChartData);
     });
