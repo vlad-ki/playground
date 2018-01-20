@@ -1,6 +1,8 @@
 /* gloval angular */
 'use strict';
 
+import '../../modules/drag-and-drop.js'
+
 angular.module('InvestX')
     .component('assetsTable', {
         bindings: {
@@ -11,10 +13,10 @@ angular.module('InvestX')
         controller: assetsTableCtrl
     })
 
-function assetsTableCtrl() {
+function assetsTableCtrl(DragAndDrop) {
     this.setAsset = setAsset;
     this.$onInit = () => {
-        //
+        DragAndDrop();
     }
 
     function setAsset(asset) {
