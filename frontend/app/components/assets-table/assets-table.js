@@ -13,10 +13,12 @@ angular.module('InvestX')
         controller: assetsTableCtrl
     })
 
-function assetsTableCtrl(DragAndDrop) {
+function assetsTableCtrl($scope, DragAndDrop) {
     this.setAsset = setAsset;
     this.$onInit = () => {
-        DragAndDrop();
+        DragAndDrop.init('assets-table__scroll', 'ul', '#chart', this.o);
+        $scope.$watch(() => { return this.o},
+            (newElement) => { console.log(this.o)});
     }
 
     function setAsset(asset) {
