@@ -7,14 +7,16 @@ import _ from 'lodash';
 angular.module('InvestX')
     .controller('correlationCtrl', correlationCtrl);
 
-function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
+function correlationCtrl($scope, $interval, binanceKlinesRes, binanseOllPricesRes) {
+    let CHART, CHART_DATA, CHART_OPTIONS
+
     this.setSymbol = setSymbol;
     getAssetsData = getAssetsData.bind(this);
     calculateCorr = calculateCorr.bind(this);
     setClosePrices = setClosePrices.bind(this);
     setCorrObj = setCorrObj.bind(this);
     getChartData = getChartData.bind(this);
-    getGoogleChartData = getGoogleChartData.bind(this);
+    drowGoogleChart = drowGoogleChart.bind(this);
 
     binanseOllPricesRes.query({}, (data) => {
         this.prices = data;
@@ -22,36 +24,61 @@ function correlationCtrl(binanceKlinesRes, binanseOllPricesRes) {
         google.charts.setOnLoadCallback(getChartData);
     });
 
+    function resize() {
+        setTableHeight();
+        if (!CHART_DATA) return;
+        CHART_OPTIONS.height = getHeight();
+        CHART.draw(CHART_DATA, google.charts.Line.convertOptions(CHART_OPTIONS))
+        console.log('resize')
+    }
+    window.onload = resize;
+    window.onresize = resize;
+
     function getChartData() {
         this.choosenAsset = this.prices[0];
         getAssetsData(this.choosenAsset)
-            .then(getGoogleChartData)
+            .then(drowGoogleChart)
     }
 
-    function getGoogleChartData(klines) {
-        let data = new google.visualization.DataTable();
-        data.addColumn('date', 'Day');
-        data.addColumn('number', 'Prise ETH/BTC');
+    function drowGoogleChart(klines) {
+        CHART_DATA = new google.visualization.DataTable();
+        CHART_DATA.addColumn('date', 'Day');
+        CHART_DATA.addColumn('number', 'Prise ETH/BTC');
         this.choosenAsset.klines = klines;
         let rows = [];
         this.choosenAsset.klines.forEach(kline => {
             let date = new Date(kline[6]);
             rows.push([date, Number(kline[4])]);
         });
-        console.log(rows)
-        data.addRows(rows)
-        let options = {
+        CHART_DATA.addRows(rows)
+        CHART_OPTIONS = {
             chart: {
                 title: 'Table of prise',
                 subtitle: '1 day interval'
             },
             vAxis: { format: 'decimal' },
-            width: 900,
-            height: 500,
+            width: '100%',
+            height: getHeight(),
         };
+        CHART = new google.charts.Line(document.getElementById('chart'));
+        CHART.draw(CHART_DATA, google.charts.Line.convertOptions(CHART_OPTIONS));
+    }
 
-        let chart = new google.charts.Line(document.getElementById('chart'));
-        chart.draw(data, google.charts.Line.convertOptions(options));
+    function getHeight() {
+        const header = document.getElementsByTagName('header')[0];
+        const footer = document.getElementsByTagName('footer')[0];
+        const maxHeight = document.documentElement.clientHeight;
+        const fullScreenHeight =  maxHeight - (header.clientHeight + footer.clientHeight);
+
+        return fullScreenHeight + 'px';
+    }
+
+    function setTableHeight() {
+        const assTable = document.getElementsByClassName('assets-table')[0];
+        const header = document.getElementsByTagName('header')[0];
+        const footer = document.getElementsByTagName('footer')[0];
+        const maxHeight = document.documentElement.clientHeight;
+        assTable.style.height = (maxHeight - (header.clientHeight + footer.clientHeight) + 'px');
     }
 
     function getAssetsData(asset, interval='1d') {
