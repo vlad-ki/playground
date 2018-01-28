@@ -20,7 +20,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 *{
     box-sizing: border-box;
 }
-
+body {
+    width: auto;
+    display: grid;
+    grid-template-rows: 1fr 80% 1fr;
+    grid-template-areas: "header"
+                         "view"
+                         "footer"
+}
+header {
+    grid-area: header;
+}
+.view {
+    grid-area: view;
+}
+footer {
+    grid-area: footer;
+}
 h1 {
     color:  #346df1;
     font-family: Aldrich;
@@ -33,39 +49,4 @@ h1 {
 }
 h1 span {
     color: rgb(117, 117, 117);
-}
-
-nav ul {
-    background-color: #6797ff60;
-    list-style: none;
-    padding: 0;
-    width: 200px;
-    border: 1px solid #2339ff;
-}
-
-nav ul li {
-    border-bottom: 1px solid #2339ff;
-    padding: 5px;
-}
-
-nav ul li:last-child {
-    border-bottom: none;
-}
-
-nav ul li a {
-    color: #1000a0;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
-.menu-item__selected {
-    background-color: #2339ff;
-    color: #ffffff;
-}
-
-.nav-item__selected:hover {
-    text-decoration: none;
 }

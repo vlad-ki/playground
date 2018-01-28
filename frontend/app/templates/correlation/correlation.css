@@ -1,4 +1,14 @@
-.corelation-view #chart {
-    float: right;
-    width: 72%;
+.wrap {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 10% 80% 10%;
+    grid-template-areas: "corelationTable corelationChart";
+    grid-column-gap: 5px;
+    grid-gap: 5px;
+}
+.assets-table .corelation {
+    grid-area: corelationTable;
+}
+#chart .corelation {
+    grid-area: corelationChart;
 }

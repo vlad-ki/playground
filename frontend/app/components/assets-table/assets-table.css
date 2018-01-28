@@ -9,8 +9,8 @@
     font-family: Roboto;
     font-weight: 300;
     text-align: center;
-    width: 25%;
-    height: 500px;
+    width: 90%;
+    /* height: 500px; */
     margin-left: 10px;
 }
 .assets-table__scroll {
